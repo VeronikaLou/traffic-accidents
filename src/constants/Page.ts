@@ -1,5 +1,5 @@
 export enum Page {
-    Main = '/main',
+    Main = '/main_page',
     Bohunice = '/brno-bohunice',
     Bosonohy = '/brno-bosonohy',
     Bystrc = '/brno-bystrc',

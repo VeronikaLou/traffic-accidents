@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -7,70 +8,81 @@ import {
 import { Page } from "./constants/Page";
 import { Detail } from "./detail/Detail";
 import { Header } from "./Header";
-import { MainPage } from "./MainPage";
 
-export const App = () => (
-  <Router>
-    <Header />
-    <Switch>
-      <Route exact path={Page.Stred}>
-        <Detail name="stred" />
-      </Route>
-      <Route exact path={Page.Bohunice}>
-        <Detail name="bohunice" />
-      </Route>
-      <Route exact path={Page.Bosonohy}>
-        <Detail name="bosonohy" />
-      </Route>
-      <Route exact path={Page.Bystrc}>
-        <Detail name="bystrc" />
-      </Route>
-      <Route exact path={Page.Cernovice}>
-        <Detail name="cernovice" />
-      </Route>
-      <Route exact path={Page.Chrlice}>
-        <Detail name="chrlice" />
-      </Route>
-      <Route exact path={Page.Ivanovice}>
-        <Detail name="ivanovice" />
-      </Route>
-      <Route exact path={Page.Jehnice}>
-        <Detail name="jehnice" />
-      </Route>
-      <Route exact path={Page.Jih}>
-        <Detail name="jih" />
-      </Route>
-      <Route exact path={Page.Jundrov}>
-        <Detail name="jundrov" />
-      </Route>
-      <Route exact path={Page.Kninicky}>
-        <Detail name="kinicky" />
-      </Route>
-      <Route exact path={Page.Kohoutovice}>
-        <Detail name="kohoutovice" />
-      </Route>
-      <Route exact path={Page.Komin}>
-        <Detail name="komin" />
-      </Route>
-      <Route exact path={Page.KralovoPole}>
-        <Detail name="kralovo-pole" />
-      </Route>
-      <Route exact path={Page.Lisen}>
-        <Detail name="lisen" />
-      </Route>
-      <Route exact path={Page.MalomericeObrany}>
-        <Detail name="malomerice" />
-      </Route>
-      <Route exact path={Page.Slatina}>
-        <Detail name="slatina" />
-      </Route>
-      <Route exact path={Page.Main}>
-        <MainPage />
-      </Route>
-      <Route path="*">
-        <Redirect to={Page.Main} />
-      </Route>
-    </Switch>
-  </Router>
-);
+export const App = () => {
+  const [tab, setTab] = useState("detail");
 
+  const setDetailTab = (name: string) => {
+    setTab("detail");
+
+    return <Detail name="name" />;
+  };
+
+  return (
+    <Router>
+      <Header tab={tab} setTab={setTab} />
+      <Switch>
+        <Route exact path={Page.Stred}>
+          {() => setDetailTab("stred")}
+        </Route>
+        <Route exact path={Page.Bohunice}>
+          {() => setDetailTab("bohunice")}
+        </Route>
+        <Route exact path={Page.Bosonohy}>
+          {() => setDetailTab("bosonohy")}
+        </Route>
+        <Route exact path={Page.Bystrc}>
+          {() => setDetailTab("bystrc")}
+        </Route>
+        <Route exact path={Page.Cernovice}>
+          {() => setDetailTab("cernovice")}
+        </Route>
+        <Route exact path={Page.Chrlice}>
+          {() => setDetailTab("chrlice")}
+        </Route>
+        <Route exact path={Page.Ivanovice}>
+          {() => setDetailTab("ivanovice")}
+        </Route>
+        <Route exact path={Page.Jehnice}>
+          {() => setDetailTab("jehnice")}
+        </Route>
+        <Route exact path={Page.Jih}>
+          {() => setDetailTab("jih")}
+        </Route>
+        <Route exact path={Page.Jundrov}>
+          {() => setDetailTab("jundrov")}
+        </Route>
+        <Route exact path={Page.Kninicky}>
+          {() => setDetailTab("kinicky")}
+        </Route>
+        <Route exact path={Page.Kohoutovice}>
+          {() => setDetailTab("kohoutovice")}
+        </Route>
+        <Route exact path={Page.Komin}>
+          {() => setDetailTab("komin")}
+        </Route>
+        <Route exact path={Page.KralovoPole}>
+          {() => setDetailTab("kralovo-pole")}
+        </Route>
+        <Route exact path={Page.Lisen}>
+          {() => setDetailTab("lisen")}
+        </Route>
+        <Route exact path={Page.MalomericeObrany}>
+          {() => setDetailTab("malomerice")}
+        </Route>
+        <Route exact path={Page.Slatina}>
+          {() => setDetailTab("slatina")}
+        </Route>
+        <Route exact path={Page.Zidenice}>
+          {() => setDetailTab("zidenice")}
+        </Route>
+        <Route exact path={Page.Main}>
+          {() => setTab("main_page")}
+        </Route>
+        <Route path="*">
+          <Redirect to={Page.Main} />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
