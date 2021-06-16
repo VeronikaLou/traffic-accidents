@@ -1,11 +1,16 @@
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 import React, { useState } from "react";
+import { lightBlue } from "@material-ui/core/colors";
 
 export const Header = () => {
-    const [value, setValue] = useState('main_page')
+  const [value, setValue] = useState("main_page");
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar
+      style={{ backgroundColor: lightBlue.A700 }}
+      position="static"
+      color="primary"
+    >
       <Tabs
         aria-label="tabs"
         indicatorColor="secondary"

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1b54615a-75aa-43eb-bf7a-6a5c3389320e/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/traffic-accidents",
+    "appService.deploySubpath": "."
+}
