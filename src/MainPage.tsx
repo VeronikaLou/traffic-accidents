@@ -9,7 +9,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, TableSortLabel } from "@material-ui/core";
 import TelegramIcon from "@material-ui/icons/Telegram";
-import { Page } from "./constants/Page";
 
 interface CityPart {
   readonly name: string;
@@ -51,25 +50,11 @@ const data: CityPart[] = [
   },
 ];
 
-const getRedirectUrl = (name: string) => {
-  switch (name) {
-    case "Brno-střed":
-      return Page.Stred;
-
-    case "Brno-Bystrc":
-      return Page.Bystrc;
-    case "Brno-Slatina":
-      return Page.Slatina;
-    case "Brno-Černovice":
-      return Page.Cernovice;
-    case "Brno-Židenice":
-      return Page.Zidenice;
-    default:
-      return Page.Main;
-  }
-};
-
-export const MainPage = () => (
+export const MainPage = ({
+  visitDetail,
+}: {
+  visitDetail: (name: string) => void;
+}) => (
   <TableContainer style={{ marginTop: "10px" }} component={Paper}>
     <Table aria-label="simple table">
       <TableHead style={{ backgroundColor: "#6a6a6a6e" }}>
@@ -99,7 +84,10 @@ export const MainPage = () => (
             <TableCell align="center">{row.deathsCount}</TableCell>
             <TableCell align="center">{row.mainCause}</TableCell>
             <TableCell component="th" align="center">
-              <IconButton aria-label="delete" href={getRedirectUrl(row.name)}>
+              <IconButton
+                aria-label="delete"
+                onClick={() => visitDetail(row.name)}
+              >
                 <TelegramIcon />
               </IconButton>
             </TableCell>

@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App";
+import { Header } from "./Header";
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <ThemeProvider theme={theme}> */}
-    <App />
+    <Header />
     {/* </ThemeProvider> */}
   </React.StrictMode>,
   document.getElementById("root")

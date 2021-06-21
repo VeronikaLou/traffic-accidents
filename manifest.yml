@@ -1,0 +1,6 @@
+applications:
+  - name: Traffic Accidents
+memory: 256M
+path: build/
+routes:
+  - route: traffic-accidents-pa181.us-south.cf.appdomain.cloud
