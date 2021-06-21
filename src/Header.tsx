@@ -9,7 +9,7 @@ export const Header = () => {
   const [page, setPage] = useState("");
   const visitDetail = (name: string) => {
     setTab("detail");
-    setPage(name);
+    setPage(name)
   };
 
   return (
