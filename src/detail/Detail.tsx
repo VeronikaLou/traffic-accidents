@@ -6,6 +6,7 @@ import { Days } from "./Days";
 import { Years } from "./Years";
 import { AllRecords } from "./AllRecords";
 import { Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,20 +46,27 @@ export const Detail = ({ index }: { index: number }) => {
   });
 
   const [localAccidents, setLocalAccidents] = useState<LocalAccidents>([{}]);
+  const [showLoader, setShowLoader] = React.useState(true);
 
   useEffect(() => {
+    setShowLoader(true);
     fetch(`/detailinfo?index=${index}`)
       .then((response) => response.json())
       .then((data) => setData(data));
 
     fetch(`/localaccidents?index=${index}`)
       .then((response) => response.json())
-      .then((data) => setLocalAccidents(data));
+      .then((data) => setLocalAccidents(data))
+      .then((a) => setShowLoader(false));
   }, [index]);
 
   const classes = useStyles();
 
-  return (
+  return showLoader ? (
+    <CircularProgress
+      style={{ height: 100, width: 100, marginTop: "10%", marginLeft: "45%" }}
+    />
+  ) : (
     <div className={classes.root}>
       <Typography
         style={{

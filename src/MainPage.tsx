@@ -11,6 +11,7 @@ import { IconButton, TableSortLabel } from "@material-ui/core";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useEffect } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface CityPart {
   readonly name: string;
@@ -151,6 +152,7 @@ export const MainPage = ({
   const [order, setOrder] = React.useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [data, setData] = React.useState<CityPart[]>([]);
+  const [showLoader, setShowLoader] = React.useState(true);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -162,6 +164,7 @@ export const MainPage = ({
   };
 
   useEffect(() => {
+    setShowLoader(true);
     fetch("/basicinfo")
       .then((response) => response.json())
       .then((data) => {
@@ -170,10 +173,15 @@ export const MainPage = ({
           index: idx,
         }));
         setData(resultData);
-      });
+      })
+      .then((a) => setShowLoader(false));
   }, []);
 
-  return (
+  return showLoader ? (
+    <CircularProgress
+      style={{ height: 100, width: 100, marginTop: "10%", marginLeft: "45%" }}
+    />
+  ) : (
     <TableContainer style={{ marginTop: "10px" }} component={Paper}>
       <Table aria-label="simple table">
         <EnhancedTableHead
