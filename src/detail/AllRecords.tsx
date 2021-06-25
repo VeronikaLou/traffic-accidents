@@ -14,10 +14,13 @@ import {
   TableHead,
   TablePagination,
 } from "@material-ui/core";
-import { allData } from "../Mocks";
 import { useStyles } from "./Detail";
 
-export const AllRecords = () => {
+export const AllRecords = ({
+  localAccidents,
+}: {
+  localAccidents: [{ [key: string]: string | number }];
+}) => {
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
@@ -52,6 +55,9 @@ export const AllRecords = () => {
                   Rok
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">
+                  Měsíc
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold" }} align="center">
                   Alkohol
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">
@@ -63,18 +69,23 @@ export const AllRecords = () => {
                 <TableCell style={{ fontWeight: "bold" }} align="center">
                   Hlavní příčina
                 </TableCell>
+                <TableCell style={{ fontWeight: "bold" }} align="center">
+                  Příčina
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {allData
+              {localAccidents
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
                   <TableRow key={idx}>
                     <TableCell align="left">{row.year}</TableCell>
+                    <TableCell align="center">{row.month}</TableCell>
                     <TableCell align="center">{row.alcohol}</TableCell>
                     <TableCell align="center">{row.day}</TableCell>
-                    <TableCell align="center">{row.deathCount}</TableCell>
+                    <TableCell align="center">{row.numberOfDeaths}</TableCell>
                     <TableCell align="center">{row.mainCause}</TableCell>
+                    <TableCell align="center">{row.cause}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -82,7 +93,7 @@ export const AllRecords = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={allData.length}
+            count={localAccidents.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}

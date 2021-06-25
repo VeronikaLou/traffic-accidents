@@ -10,12 +10,15 @@ import Paper from "@material-ui/core/Paper";
 import { IconButton, TableSortLabel } from "@material-ui/core";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useEffect } from "react";
 
 interface CityPart {
   readonly name: string;
   readonly deathsCount: number;
   readonly mainCause: string;
-  readonly accidentsCount: number;
+  readonly accidentCount: number;
+  readonly cause: string;
+  readonly index: number;
 }
 
 interface HeadCell {
@@ -29,46 +32,13 @@ interface EnhancedTableProps {
   orderBy: string;
 }
 
-const data: CityPart[] = [
-  {
-    name: "Brno-střed",
-    deathsCount: 100,
-    mainCause: "Nesprávný způsob jízdy",
-    accidentsCount: 500,
-  },
-  {
-    name: "Brno-Černovice",
-    deathsCount: 5,
-    mainCause: "Nedání přednosti v jízdě",
-    accidentsCount: 150,
-  },
-  {
-    name: "Brno-Slatina",
-    deathsCount: 10000,
-    mainCause: "Nedání přednosti v jízdě",
-    accidentsCount: 5000000,
-  },
-  {
-    name: "Brno-Židenice",
-    deathsCount: 55,
-    mainCause: "Nesprávný způsob jízdy",
-    accidentsCount: 675,
-  },
-  {
-    name: "Brno-Bystrc",
-    deathsCount: 104564560,
-    mainCause: "Nezaviněná řidičem",
-    accidentsCount: 50055454,
-  },
-];
-
 const headCells: HeadCell[] = [
   {
     id: "name",
     label: "Městská část",
   },
   {
-    id: "accidentsCount",
+    id: "accidentCount",
     label: "Počet nehod",
   },
   {
@@ -77,6 +47,10 @@ const headCells: HeadCell[] = [
   },
   {
     id: "mainCause",
+    label: "Nejčastější hlavní příčina",
+  },
+  {
+    id: "cause",
     label: "Nejčastější příčina",
   },
   {
@@ -172,10 +146,11 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 export const MainPage = ({
   visitDetail,
 }: {
-  visitDetail: (name: string) => void;
+  visitDetail: (index: number) => void;
 }) => {
   const [order, setOrder] = React.useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = React.useState("name");
+  const [data, setData] = React.useState<CityPart[]>([]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -185,6 +160,18 @@ export const MainPage = ({
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+
+  useEffect(() => {
+    fetch("/basicinfo")
+      .then((response) => response.json())
+      .then((data) => {
+        const resultData = data.map((cityPart: any, idx: number) => ({
+          ...cityPart,
+          index: idx,
+        }));
+        setData(resultData);
+      });
+  }, []);
 
   return (
     <TableContainer style={{ marginTop: "10px" }} component={Paper}>
@@ -198,13 +185,14 @@ export const MainPage = ({
           {stableSort(data, getComparator(order, orderBy)).map((row) => (
             <TableRow key={row.name}>
               <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.accidentsCount}</TableCell>
+              <TableCell align="center">{row.accidentCount}</TableCell>
               <TableCell align="center">{row.deathsCount}</TableCell>
               <TableCell align="center">{row.mainCause}</TableCell>
+              <TableCell align="center">{row.cause}</TableCell>
               <TableCell component="th" align="center">
                 <IconButton
                   aria-label="delete"
-                  onClick={() => visitDetail(row.name)}
+                  onClick={() => visitDetail(row.index)}
                 >
                   <TelegramIcon />
                 </IconButton>

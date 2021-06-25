@@ -13,10 +13,13 @@ import {
   TableBody,
   TablePagination,
 } from "@material-ui/core";
-import { alcohol } from "../Mocks";
 import { useStyles } from "./Detail";
 
-export const Alcohol = () => {
+export const Alcohol = ({
+  alcohols,
+}: {
+  alcohols: { [key: string]: number };
+}) => {
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
@@ -46,21 +49,21 @@ export const Alcohol = () => {
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableBody>
-              {alcohol
+              {Object.keys(alcohols)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
                   <TableRow key={idx}>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.count}</TableCell>
+                    <TableCell align="left">{row}</TableCell>
+                    <TableCell align="right">{alcohols[row]}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
           </Table>
-          {alcohol.length > 5 && (
+          {alcohols.length > 5 && (
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={alcohol.length}
+              count={alcohols.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}

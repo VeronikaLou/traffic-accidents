@@ -6,10 +6,10 @@ import { Detail } from "./detail/Detail";
 
 export const Header = () => {
   const [tab, setTab] = useState("main_page");
-  const [page, setPage] = useState("");
-  const visitDetail = (name: string) => {
+  const [page, setPage] = useState(0);
+  const visitDetail = (index: number) => {
     setTab("detail");
-    setPage(name);
+    setPage(index);
   };
 
   return (
@@ -30,7 +30,7 @@ export const Header = () => {
         </Tabs>
       </AppBar>
       {tab === "main_page" && <MainPage visitDetail={visitDetail}/>}
-      {tab === "detail" && <Detail name={page} />}
+      {tab === "detail" && <Detail index={page} />}
     </>
   );
 };

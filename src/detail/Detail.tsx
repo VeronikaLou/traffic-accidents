@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MainCause } from "./MainCause";
 import { Alcohol } from "./Alcohol";
 import { Days } from "./Days";
 import { Years } from "./Years";
 import { AllRecords } from "./AllRecords";
+import { Typography } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,20 +23,58 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Detail = ({ name }: { name: string }) => {
+interface DetailInfo {
+  name: string;
+  mainCause: { [key: string]: number };
+  alcohol: { [key: string]: number };
+  day: { [key: string]: number };
+  year: { [key: string]: number };
+  month: { [key: string]: number };
+}
+
+type LocalAccidents = [{ [key: string]: number }];
+
+export const Detail = ({ index }: { index: number }) => {
+  const [data, setData] = useState<DetailInfo>({
+    name: "",
+    mainCause: {},
+    alcohol: {},
+    day: {},
+    year: {},
+    month: {},
+  });
+
+  const [localAccidents, setLocalAccidents] = useState<LocalAccidents>([{}]);
+
   useEffect(() => {
-    //fetch
-  }, [name]);
+    fetch(`/detailinfo?index=${index}`)
+      .then((response) => response.json())
+      .then((data) => setData(data));
+
+    fetch(`/localaccidents?index=${index}`)
+      .then((response) => response.json())
+      .then((data) => setLocalAccidents(data));
+  }, [index]);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <MainCause />
-      <Alcohol />
-      <Days />
-      <Years />
-      <AllRecords />
+      <Typography
+        style={{
+          textAlign: "center",
+          marginBottom: "10px",
+          fontWeight: "bold",
+        }}
+        variant="h5"
+      >
+        {data.name}
+      </Typography>
+      <MainCause causes={data.mainCause} />
+      <Alcohol alcohols={data.alcohol} />
+      <Days days={data.day} />
+      <Years years={data.year} />
+      <AllRecords localAccidents={localAccidents} />
     </div>
   );
 };

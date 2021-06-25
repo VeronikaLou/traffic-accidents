@@ -13,10 +13,13 @@ import {
   TableBody,
   TablePagination,
 } from "@material-ui/core";
-import { causes } from "../Mocks";
 import { useStyles } from "./Detail";
 
-export const MainCause = () => {
+export const MainCause = ({
+  causes,
+}: {
+  causes: { [key: string]: number };
+}) => {
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
@@ -46,12 +49,12 @@ export const MainCause = () => {
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableBody>
-              {causes
+              {Object.keys(causes)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
                   <TableRow key={idx}>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.count}</TableCell>
+                    <TableCell align="left">{row}</TableCell>
+                    <TableCell align="right">{causes[row]}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

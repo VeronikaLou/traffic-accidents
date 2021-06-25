@@ -12,10 +12,9 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
-import { days } from "../Mocks";
 import { useStyles } from "./Detail";
 
-export const Days = () => {
+export const Days = ({ days }: { days: { [key: string]: number } }) => {
   const classes = useStyles();
 
   return (
@@ -34,10 +33,10 @@ export const Days = () => {
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableBody>
-              {days.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="right">{row.count}</TableCell>
+              {Object.keys(days).map((row) => (
+                <TableRow key={row}>
+                  <TableCell align="left">{row}</TableCell>
+                  <TableCell align="right">{days[row]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

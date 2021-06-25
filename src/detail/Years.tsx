@@ -13,10 +13,9 @@ import {
   TableBody,
   TablePagination,
 } from "@material-ui/core";
-import { years } from "../Mocks";
 import { useStyles } from "./Detail";
 
-export const Years = () => {
+export const Years = ({ years }: { years: { [key: string]: number } }) => {
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
@@ -46,12 +45,12 @@ export const Years = () => {
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableBody>
-              {years
+              {Object.keys(years)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, idx) => (
                   <TableRow key={idx}>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.count}</TableCell>
+                    <TableCell align="left">{row}</TableCell>
+                    <TableCell align="right">{years[row]}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
