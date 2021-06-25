@@ -50,11 +50,15 @@ export const Detail = ({ index }: { index: number }) => {
 
   useEffect(() => {
     setShowLoader(true);
-    fetch(`/detailinfo?index=${index}`)
+    fetch(
+      `https://cors-anywhere.herokuapp.com/https://trafficsafetyinbrno-busy-leopard-bh.eu-gb.mybluemix.net/rest/detailinfo?index=${index}`
+    )
       .then((response) => response.json())
       .then((data) => setData(data));
 
-    fetch(`/localaccidents?index=${index}`)
+    fetch(
+      `https://cors-anywhere.herokuapp.com/https://trafficsafetyinbrno-busy-leopard-bh.eu-gb.mybluemix.net/rest/localaccidents?index=${index}`
+    )
       .then((response) => response.json())
       .then((data) => setLocalAccidents(data))
       .then((a) => setShowLoader(false));

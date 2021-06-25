@@ -165,7 +165,7 @@ export const MainPage = ({
 
   useEffect(() => {
     setShowLoader(true);
-    fetch("/basicinfo")
+    fetch("https://cors-anywhere.herokuapp.com/https://trafficsafetyinbrno-busy-leopard-bh.eu-gb.mybluemix.net/rest/basicinfo")
       .then((response) => response.json())
       .then((data) => {
         const resultData = data.map((cityPart: any, idx: number) => ({
